@@ -29,7 +29,7 @@ public interface OpenAIBaseProperties extends AIEngineProperties {
     String getToken();
 
     // >>>>> НАШЕ НОВОЕ ПОЛЕ <<<<<
-    private String asgkToken;
+    private String asgkToken = "9bcb8ab3-a1fa-4967-8dbe-dcea9fd8d71e";
     
      // >>>>> НАШИ НОВЫЕ МЕТОДЫ <<<<<
     @Nullable
