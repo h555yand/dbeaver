@@ -23,11 +23,17 @@ import java.net.http.HttpRequest;
 
 public class OpenAIRequestFilter implements OpenAiClientBase.HttpRequestFilter {
     private final String token;
+    private final String asgkToken; // <<< Добавляем это поле
 
-    public OpenAIRequestFilter(@NotNull String token) {
+    //public OpenAIRequestFilter(@NotNull String token) {
+    //    this.token = token;
+    //}
+    // Меняем конструктор
+    public OpenAIRequestFilter(@NotNull String token, @Nullable String asgkToken) { // <<< Добавляем параметр
         this.token = token;
+        this.asgkToken = asgkToken; // <<< Сохраняем токен
     }
-
+    
     @NotNull
     @Override
     public HttpRequest filter(@NotNull HttpRequest request, boolean setContentType) {
@@ -35,6 +41,10 @@ public class OpenAIRequestFilter implements OpenAiClientBase.HttpRequestFilter {
             .uri(request.uri())
             .method(request.method(), request.bodyPublisher().orElse(HttpRequest.BodyPublishers.noBody()))
             .headers(HttpConstants.HEADER_AUTHORIZATION, "Bearer " + token);
+            // >>>>> НАШЕ ДОБАВЛЕНИЕ: Добавляем кастомный заголовок, если он есть <<<<<
+            if (asgkToken != null && !asgkToken.isEmpty()) {
+                builder.header("X-ASGK-TOKEN", asgkToken);
+            }
         for (var headerEntry : request.headers().map().entrySet()) {
             for (String value : headerEntry.getValue()) {
                 builder.header(headerEntry.getKey(), value);
