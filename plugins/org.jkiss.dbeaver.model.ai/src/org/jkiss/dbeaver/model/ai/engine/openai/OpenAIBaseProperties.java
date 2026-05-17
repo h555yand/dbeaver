@@ -40,8 +40,6 @@ public interface OpenAIBaseProperties extends AIEngineProperties {
     public void setAsgkToken(String asgkToken) {
         this.asgkToken = asgkToken;
     }
-    // >>>>> НАШЕ НОВОЕ ПОЛЕ <<<<<
-    private String asgkToken;
 
     default boolean isStreamingEnabled() {
         return true;
