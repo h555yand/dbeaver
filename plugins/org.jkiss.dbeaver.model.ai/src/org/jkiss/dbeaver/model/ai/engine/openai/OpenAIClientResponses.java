@@ -55,10 +55,11 @@ public class OpenAIClientResponses extends OpenAiClientBase {
     }
 
     @NotNull
-    public static OpenAIClientResponses createClient(@NotNull String baseUrl, @NotNull String token) {
+    public static OpenAIClientResponses createClient(@NotNull String baseUrl, @NotNull String token, @Nullable String asgkToken) {
         return new OpenAIClientResponses(
             baseUrl,
-            List.of(new OpenAIRequestFilter(token))
+            //List.of(new OpenAIRequestFilter(token))
+            List.of(new OpenAIRequestFilter(token, asgkToken)) // <<< Передаем оба токена в фильтр
         );
     }
 
