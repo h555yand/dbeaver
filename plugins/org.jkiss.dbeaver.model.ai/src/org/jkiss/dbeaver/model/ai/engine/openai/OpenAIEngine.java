@@ -141,7 +141,12 @@ public class OpenAIEngine<PROPS extends OpenAIBaseProperties> extends BaseComple
         if (baseUrl == null || baseUrl.isEmpty()) {
             baseUrl = OpenAIClientResponses.OPENAI_ENDPOINT;
         }
-        return OpenAIClientResponses.createClient(baseUrl, token);
+        //return OpenAIClientResponses.createClient(baseUrl, token);
+        // >>>>> ЧИТАЕМ НАШ ТОКЕН ИЗ СВОЙСТВ <<<<<
+        String asgkToken = properties.getAsgkToken();
+    
+        // >>>>> ПЕРЕДАЕМ ЕГО В КЛИЕНТ <<<<<
+        return OpenAIClientResponses.createClient(baseUrl, token, asgkToken);
     }
 
     @Nullable
