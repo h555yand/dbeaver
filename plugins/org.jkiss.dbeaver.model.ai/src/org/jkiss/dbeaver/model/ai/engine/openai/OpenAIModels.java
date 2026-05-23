@@ -31,40 +31,41 @@ public final class OpenAIModels {
     private OpenAIModels() {
     }
 
-    public static final String DEFAULT_MODEL = "gpt-4o";
+    public static final String DEFAULT_MODEL = "gpt-5.2";
 
     public static final Map<String, AIModel> KNOWN_MODELS = AIUtils.modelMap(
-        new AIModel("o1-pro", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("o1", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("o1-mini", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("o3", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("o3-mini", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("o3-pro", 200_000, Set.of(AIModelFeature.CHAT)),
-        new AIModel("o4-mini", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-3.5-turbo", 16_384, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4", 8_192, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4-turbo", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4.1", 1_048_576, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4.1-mini", 1_048_576, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4.1-nano", 1_048_576, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4o", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-4o-mini", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
-        new AIModel("gpt-5", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("gpt-5-codex", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("gpt-5-mini", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("gpt-5-nano", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("gpt-5.1", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("gpt-5.1-codex", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("o1-pro", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("o1", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("o1-mini", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("o3", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("o3-mini", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("o3-pro", 200_000, Set.of(AIModelFeature.CHAT)),
+        //new AIModel("o4-mini", 200_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-3.5-turbo", 16_384, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4", 8_192, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4-turbo", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4.1", 1_048_576, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4.1-mini", 1_048_576, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4.1-nano", 1_048_576, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4o", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-4o-mini", 128_000, Set.of(AIModelFeature.CHAT, AIModelFeature.STREAMING)),
+        //new AIModel("gpt-5", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("gpt-5-codex", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("gpt-5-mini", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("gpt-5-nano", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("gpt-5.1", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("gpt-5.1-codex", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
         new AIModel("gpt-5.2", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("gpt-5.2-pro", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("gpt-5.2-pro", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        new AIModel("qwen3-235b-a22b-instruct", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1)
 
-        new AIModel("gpt-4o-transcribe", 128_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
-        new AIModel("gpt-4o-mini-transcribe", 128_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
-        new AIModel("whisper-1", 30_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
+        //new AIModel("gpt-4o-transcribe", 128_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
+        //new AIModel("gpt-4o-mini-transcribe", 128_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
+        //new AIModel("whisper-1", 30_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
 
-        new AIModel("text-embedding-3-small", 65_536, Set.of(AIModelFeature.EMBEDDING)),
-        new AIModel("text-embedding-3-large", 65_536, Set.of(AIModelFeature.EMBEDDING)),
-        new AIModel("text-embedding-ada-002", 65_536, Set.of(AIModelFeature.EMBEDDING))
+        //new AIModel("text-embedding-3-small", 65_536, Set.of(AIModelFeature.EMBEDDING)),
+        //new AIModel("text-embedding-3-large", 65_536, Set.of(AIModelFeature.EMBEDDING)),
+        //new AIModel("text-embedding-ada-002", 65_536, Set.of(AIModelFeature.EMBEDDING))
     );
 
     public static final Set<String> DEPRECATED_MODELS = Set.of(

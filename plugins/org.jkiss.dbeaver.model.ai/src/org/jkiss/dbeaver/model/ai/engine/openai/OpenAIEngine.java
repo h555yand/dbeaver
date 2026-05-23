@@ -54,13 +54,18 @@ public class OpenAIEngine<PROPS extends OpenAIBaseProperties> extends BaseComple
     @NotNull
     @Override
     public List<AIModel> getModels(@NotNull DBRProgressMonitor monitor) throws DBException {
-        return openAiService.getInstance().getModels(monitor)
-            .stream()
-            .map(model -> OpenAIModels.KNOWN_MODELS.getOrDefault(
-                model.id(),
-                new AIModel(model.id(), null, OpenAIModels.detectModelFeatures(model.id()))
-            ))
-            .toList();
+        try {
+            return openAiService.getInstance().getModels(monitor)
+                .stream()
+                .map(model -> OpenAIModels.KNOWN_MODELS.getOrDefault(
+                    model.id(),
+                    new AIModel(model.id(), null, OpenAIModels.detectModelFeatures(model.id()))
+                ))
+                .toList();
+        } catch (Exception e) {
+            // Если API недоступно — вернуть KNOWN_MODELS
+            return List.copyOf(OpenAIModels.KNOWN_MODELS.values());
+        }
     }
 
     @NotNull

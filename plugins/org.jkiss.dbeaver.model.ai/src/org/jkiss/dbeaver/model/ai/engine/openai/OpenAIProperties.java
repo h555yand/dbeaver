@@ -34,6 +34,7 @@ import java.util.Map;
 public class OpenAIProperties implements OpenAIBaseProperties {
     private static final String GPT_BASE_URL = "gpt.base_url";
     private static final String GPT_TOKEN = "gpt.token";
+    private static final String GPT_ASGK_TOKEN = "gpt.asgk.token";
     private static final String GPT_MODEL = "gpt.model";
     private static final String GPT_CONTEXT_WINDOW_SIZE = "gpt.contextWindowSize";
     private static final String GPT_MODEL_TEMPERATURE = "gpt.model.temperature";
@@ -62,21 +63,12 @@ public class OpenAIProperties implements OpenAIBaseProperties {
     @SerializedName(GPT_LOG_QUERY)
     private Boolean loggingEnabled;
 
+    @Nullable
+    @SecureProperty
+    @SerializedName(GPT_ASGK_TOKEN)
+    private String asgkToken;
+
     public OpenAIProperties() {
-    }
-
-    @NotNull
-    @Override
-    @Property(order = 2, required = true)
-    public String getBaseUrl() {
-        if (baseUrl == null || baseUrl.isEmpty()) {
-            return OpenAIClientResponses.OPENAI_ENDPOINT;
-        }
-        return baseUrl;
-    }
-
-    public void setBaseUrl(@Nullable String baseUrl) {
-        this.baseUrl = baseUrl;
     }
 
     @Nullable
@@ -92,7 +84,32 @@ public class OpenAIProperties implements OpenAIBaseProperties {
 
     @Nullable
     @Override
-    @Property(order = 3, listProvider = OpenAIModelListProvider.class)
+    @Property(order = 2, password = true, description = "ASGK Token for custom header authentication")
+    public String getAsgkToken() {
+        return asgkToken;
+    }
+
+    public void setAsgkToken(@Nullable String asgkToken) {
+        this.asgkToken = asgkToken;
+    }
+
+    @NotNull
+    @Override
+    @Property(order = 3, required = true)
+    public String getBaseUrl() {
+        if (baseUrl == null || baseUrl.isEmpty()) {
+            return OpenAIClientResponses.OPENAI_ENDPOINT;
+        }
+        return baseUrl;
+    }
+
+    public void setBaseUrl(@Nullable String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    @Nullable
+    @Override
+    @Property(order = 4, listProvider = OpenAIModelListProvider.class)
     public String getModel() {
         if (model != null) {
             return OpenAIModels.getEffectiveModelName(model);
@@ -109,7 +126,7 @@ public class OpenAIProperties implements OpenAIBaseProperties {
     }
 
     @Override
-    @Property(order = 4)
+    @Property(order = 5)
     public double getTemperature() {
         if (temperature != null && Double.isFinite(temperature) && temperature != AIUtils.DEFAULT_TEMPERATURE) {
             return temperature;
@@ -125,7 +142,7 @@ public class OpenAIProperties implements OpenAIBaseProperties {
     }
 
     @Override
-    @Property(order = 5)
+    @Property(order = 6)
     public boolean isLoggingEnabled() {
         if (loggingEnabled != null) {
             return loggingEnabled;
@@ -142,7 +159,7 @@ public class OpenAIProperties implements OpenAIBaseProperties {
 
     @Nullable
     @Override
-    @Property(order = 6)
+    @Property(order = 7)
     public Integer getContextWindowSize() {
         if (contextWindowSize != null) {
             return contextWindowSize;
@@ -160,12 +177,16 @@ public class OpenAIProperties implements OpenAIBaseProperties {
     @Override
     public void resolveSecrets() throws DBException {
         token = AIUtils.getSecretValueOrDefault(OpenAIConstants.GPT_API_TOKEN, token);
+        asgkToken = AIUtils.getSecretValueOrDefault(OpenAIConstants.GPT_ASGK_TOKEN, asgkToken);
     }
 
     @Override
     public void saveSecrets() throws DBException {
         if (token != null) {
             DBSSecretController.getGlobalSecretController().setPrivateSecretValue(OpenAIConstants.GPT_API_TOKEN, token);
+        }
+        if (asgkToken != null) {
+            DBSSecretController.getGlobalSecretController().setPrivateSecretValue(OpenAIConstants.GPT_ASGK_TOKEN, asgkToken);
         }
     }
 

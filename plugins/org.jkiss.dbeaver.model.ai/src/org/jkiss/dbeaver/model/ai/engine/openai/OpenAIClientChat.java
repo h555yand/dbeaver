@@ -19,6 +19,7 @@ package org.jkiss.dbeaver.model.ai.engine.openai;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jkiss.code.NotNull;
+import org.jkiss.code.Nullable;
 import org.jkiss.dbeaver.DBException;
 import org.jkiss.dbeaver.model.ai.AIMessage;
 import org.jkiss.dbeaver.model.ai.AIMessageMeta;
@@ -53,10 +54,10 @@ public class OpenAIClientChat extends OpenAiClientBase {
     }
 
     @NotNull
-    public static OpenAIClientChat createClient(@NotNull String baseUrl, @NotNull String token) {
+    public static OpenAIClientChat createClient(@NotNull String baseUrl, @NotNull String token, @Nullable String asgkToken) {
         return new OpenAIClientChat(
             baseUrl,
-            List.of(new OpenAIRequestFilter(token))
+            List.of(new OpenAIRequestFilter(token, asgkToken)) // <<< ПЕРЕДАЕМ НОВЫЙ ПАРАМЕТР
         );
     }
 

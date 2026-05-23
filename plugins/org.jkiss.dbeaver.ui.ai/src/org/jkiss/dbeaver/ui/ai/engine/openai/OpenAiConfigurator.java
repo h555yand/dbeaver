@@ -59,18 +59,21 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
     protected volatile String token = "";
     private String temperature = "0.0";
     private boolean logQuery = false;
+    protected volatile String asgkToken = "";
 
     @Nullable
     private Text baseUrlText;
 
     @Nullable
     protected Text tokenText;
+    @Nullable
+    protected Text asgkTokenText;
     private Text temperatureText;
     private ModelSelectorField modelSelectorField;
     private ContextWindowSizeField contextWindowSizeField;
     private Button logQueryCheck;
 
-    protected final CachedValue<List<AIModel>> modelsCache = new CachedValue<>(this::fetchOpenAiModels);
+    // protected final CachedValue<List<AIModel>> modelsCache = new CachedValue<>(this::fetchOpenAiModels);
 
     @Override
     public void createControl(
@@ -95,6 +98,7 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
             baseUrl = OpenAIClientResponses.OPENAI_ENDPOINT;
         }
         token = CommonUtils.toString(configuration.getToken());
+        asgkToken = CommonUtils.toString(configuration.getAsgkToken());
         modelSelectorField.setSelectedModel(
             CommonUtils.toString(configuration.getModel(), OpenAIModels.DEFAULT_MODEL)
         );
@@ -112,6 +116,7 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
     public void saveSettings(@NotNull PROPERTIES configuration) {
         configuration.setBaseUrl(baseUrl);
         configuration.setToken(token);
+        configuration.setAsgkToken(asgkToken);
         configuration.setModel(modelSelectorField.getSelectedModel());
         configuration.setContextWindowSize(contextWindowSizeField.getValue());
         configuration.setTemperature(CommonUtils.toDouble(temperature));
@@ -137,15 +142,17 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
     }
 
     protected void createModelParameters(@NotNull Composite parent) {
+        // Статический список моделей из KNOWN_MODELS
+        List<String> localModels = OpenAIModels.KNOWN_MODELS.values().stream()
+            .filter(model -> model.features().contains(AIModelFeature.CHAT))
+            .map(AIModel::name)
+            .sorted(String::compareToIgnoreCase)
+            .toList();
+
         modelSelectorField = ModelSelectorField.builder()
             .withParent(parent)
             .withGridData(new GridData(GridData.FILL_HORIZONTAL))
-            .withModelListSupplier(
-                (monitor, forceRefresh) -> modelsCache.get(monitor, forceRefresh).stream()
-                    .filter(it -> it.features().contains(AIModelFeature.CHAT))
-                    .map(AIModel::name)
-                    .toList()
-            )
+            .withModelListSupplier((monitor, forceRefresh) -> localModels)  // ← Вот так правильно!
             .withModifyListener(() ->
                 OpenAIModels.getModelByName(modelSelectorField.getSelectedModel())
                     .ifPresentOrElse(
@@ -159,7 +166,7 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
                             temperatureText.setEnabled(true);
                         }
                     ))
-                .build();
+            .build();
 
         contextWindowSizeField = ContextWindowSizeField.builder()
             .withParent(parent)
@@ -173,6 +180,7 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
         temperatureText.addModifyListener((e) -> temperature = temperatureText.getText());
     }
 
+    /*
     @NotNull
     private List<AIModel> fetchOpenAiModels(@NotNull DBRProgressMonitor monitor) throws DBException {
         if (token == null || token.isEmpty()) {
@@ -187,7 +195,8 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
             return engine.getModels(monitor);
         }
     }
-
+     */
+    
     protected void createConnectionParameters(@NotNull Composite parent) {
         tokenText = UIUtils.createLabelText(
             parent,
@@ -200,6 +209,19 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
         tokenText.setLayoutData(gd);
         tokenText.addModifyListener((e -> token = tokenText.getText()));
         tokenText.setMessage(AIUIMessages.openai_configurator_token_placeholder);
+        createURLInfoLink(parent);
+
+        asgkTokenText = UIUtils.createLabelText(
+            parent,
+            "ASGK Token",
+            "",
+            SWT.BORDER | SWT.PASSWORD
+        );
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.widthHint = 150;
+        asgkTokenText.setLayoutData(gd);
+        asgkTokenText.addModifyListener((e -> asgkToken = asgkTokenText.getText()));
+        asgkTokenText.setMessage("Enter ASGK token");
         createURLInfoLink(parent);
     }
 
@@ -243,6 +265,9 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
         if (tokenText != null) {
             tokenText.setText(token);
         }
+        if (asgkTokenText != null) {
+            asgkTokenText.setText(asgkToken);
+        }
 
         temperatureText.setText(temperature);
         logQueryCheck.setSelection(logQuery);
@@ -261,6 +286,7 @@ public class OpenAiConfigurator<ENGINE extends AIEngineDescriptor, PROPERTIES ex
         OpenAIProperties propertiesCopy = new OpenAIProperties();
         propertiesCopy.setBaseUrl(baseUrl);
         propertiesCopy.setToken(token);
+        propertiesCopy.setAsgkToken(asgkToken);
         propertiesCopy.setModel(modelSelectorField.getSelectedModel());
         propertiesCopy.setContextWindowSize(contextWindowSizeField.getValue());
         propertiesCopy.setTemperature(CommonUtils.toDouble(temperature));

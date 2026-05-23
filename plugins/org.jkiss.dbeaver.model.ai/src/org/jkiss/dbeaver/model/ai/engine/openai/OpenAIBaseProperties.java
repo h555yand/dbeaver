@@ -28,18 +28,10 @@ public interface OpenAIBaseProperties extends AIEngineProperties {
     @Nullable
     String getToken();
 
-    // >>>>> НАШЕ НОВОЕ ПОЛЕ <<<<<
-    private String asgkToken = "9bcb8ab3-a1fa-4967-8dbe-dcea9fd8d71e";
-    
-     // >>>>> НАШИ НОВЫЕ МЕТОДЫ <<<<<
+    // Добавляем геттер и сеттер для нового токена. Просто объявления, без тела!
     @Nullable
-    public String getAsgkToken() {
-        return asgkToken;
-    }
-
-    public void setAsgkToken(String asgkToken) {
-        this.asgkToken = asgkToken;
-    }
+    String getAsgkToken();
+    void setAsgkToken(@Nullable String asgkToken);
 
     default boolean isStreamingEnabled() {
         return true;
