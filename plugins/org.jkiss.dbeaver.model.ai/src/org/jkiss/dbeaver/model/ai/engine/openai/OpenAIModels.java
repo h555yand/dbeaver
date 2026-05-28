@@ -57,9 +57,9 @@ public final class OpenAIModels {
         //new AIModel("gpt-5.1-codex", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
         new AIModel("gpt-5.2", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
         //new AIModel("gpt-5.2-pro", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("claude-4-6-opus", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("glm-4.6-357b", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
-        new AIModel("kimi-k2-instruct", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("claude-4-6-opus", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("glm-4.6-357b", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
+        //new AIModel("kimi-k2-instruct", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1),
         new AIModel("qwen3-235b-a22b-instruct", 400_000, Set.of(AIModelFeature.CHAT, AIModelFeature.ALWAYS_DEFAULT_TEMPERATURE), 1)
 
         //new AIModel("gpt-4o-transcribe", 128_000, Set.of(AIModelFeature.SPEECH_TO_TEXT)),
